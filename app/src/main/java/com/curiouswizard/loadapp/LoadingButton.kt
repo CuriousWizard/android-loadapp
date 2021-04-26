@@ -8,10 +8,12 @@ import android.view.View
 import androidx.core.content.withStyledAttributes
 import kotlin.properties.Delegates
 
+/**
+ * Custom download button view, inherits from View.
+ */
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
-
 
     private var widthSize = 0
     private var heightSize = 0
@@ -43,6 +45,7 @@ class LoadingButton @JvmOverloads constructor(
     private var textHeight = 0.0F
     private var textOffset = 0.0F
 
+    // Variables for the animation from 0F to 1F
     private var loadingProgress = 0F
         set(value) {
             field = value
@@ -54,13 +57,13 @@ class LoadingButton @JvmOverloads constructor(
             invalidate()
         }
 
-
     // Variables for arc
     private var arcDiameter: Float = 0.0F
     private var arcMargin: Float = 0.0F
     private var arcColor = 0
     private val arcPaint = Paint()
 
+    // Processing different states of the button
     private var buttonState: ButtonState by Delegates.observable(ButtonState.Completed) { _, _, new ->
         when (new){
             ButtonState.Loading -> {
@@ -83,6 +86,7 @@ class LoadingButton @JvmOverloads constructor(
         }
     }
 
+    // First time setup for the view
     init {
         isClickable = true
 
@@ -97,7 +101,6 @@ class LoadingButton @JvmOverloads constructor(
         arcPaint.color = arcColor
     }
 
-
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
@@ -108,6 +111,7 @@ class LoadingButton @JvmOverloads constructor(
             // Draw the loading rectangle on top of the background
             canvas.drawRect(0F, 0F, loadingProgress, heightSize.toFloat(), loadingPaint)
 
+            // Draw oval within the given angles
             canvas.drawArc(
                 widthSize - arcDiameter - arcMargin,
                 arcMargin,
@@ -147,6 +151,7 @@ class LoadingButton @JvmOverloads constructor(
         setMeasuredDimension(w, h)
     }
 
+    // Changing state of LoadingButton
     fun setState(state: ButtonState){
         this.buttonState = state
     }

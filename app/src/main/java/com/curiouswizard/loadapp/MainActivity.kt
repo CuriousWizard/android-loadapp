@@ -64,9 +64,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this, R.string.no_selected_radio_button_toast, Toast.LENGTH_SHORT).show()
         }
 
-        createChannel(CHANNEL_ID, getString(R.string.channel_name))
+        createChannel(getString(R.string.channel_name))
     }
 
+    // BroadcastReceiver for the notification when we finished downloading the file
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
@@ -92,6 +93,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Download the given GitHub repository
     private fun download(url: String) {
         val request =
             DownloadManager.Request(Uri.parse(url))
@@ -108,10 +110,11 @@ class MainActivity : AppCompatActivity() {
         binding.customButton.setState(ButtonState.Loading)
     }
 
-    private fun createChannel(channelId: String, channelName: String) {
+    // Creating channel for API level 26+
+    private fun createChannel(channelName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val notificationChannel = NotificationChannel(
-                    channelId,
+                    CHANNEL_ID,
                     channelName,
                     NotificationManager.IMPORTANCE_DEFAULT
             )
