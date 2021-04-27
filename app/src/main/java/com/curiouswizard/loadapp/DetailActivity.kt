@@ -1,5 +1,6 @@
 package com.curiouswizard.loadapp
 
+import android.app.NotificationManager
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -11,6 +12,11 @@ class DetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Dismissing the notification
+        val notificationManager =
+                getSystemService(NotificationManager::class.java) as NotificationManager
+        notificationManager.cancelNotifications()
 
         // Using View binding
         binding = ActivityDetailBinding.inflate(layoutInflater)
